@@ -40,9 +40,6 @@ class LanguageField(models.CharField):
         defaults.update(kwargs)
         super(LanguageField, self).__init__(*args, **defaults)
 
-    def get_internal_type(self):
-        return "CharField"
-
 class LanguageManager(models.Manager):
     def get_query_set(self):
         """
