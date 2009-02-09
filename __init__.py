@@ -6,22 +6,23 @@ from django.db import models
 from django.utils.translation import get_language
 
 
-def best_languange():
+def best_languange(lang=None):
     """
     Provides the best language for the current user from the set of known
-    languages if possible. With the Locale middleware enabled, this is probably
-    not necessary. But without it, Django will not do the matching for us.
+    languages if possible, otherwise the best language for the default
+    LANGUAGE_CODE. With the Locale middleware enabled, this is probably not
+    necessary. But without it, Django will not do the matching for us.
 
     """
 
-    current = get_language()
+    current = lang or get_language()
     available = [c for c, n in settings.LANGUAGES]
     if current in available:
         return current
     short = current[:2]
     if short in available:
         return short
-    return current
+    return best_languange(settings.LANGUAGE_CODE)
 
 class LanguageField(models.CharField):
     """
